@@ -2,6 +2,7 @@ import { Stack, Construct, StackProps } from '@aws-cdk/core';
 import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
 import { Function, Runtime, Code } from '@aws-cdk/aws-lambda';
 import { PolicyStatement, Effect } from '@aws-cdk/aws-iam';
+import { ApiResources } from './api-resources';
 
 export class StadiumsWebsiteBackendStack extends Stack {
   public stadiumsMapTable: Table;
@@ -31,5 +32,9 @@ export class StadiumsWebsiteBackendStack extends Stack {
       actions: ['dynamodb:Scan'],
       resources: [this.stadiumsMapTable.tableArn]
     }));
+
+    new ApiResources(this, 'StadiumsApiResources', {
+      getMapDataLambda
+    });
   }
 }

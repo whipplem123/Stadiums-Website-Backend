@@ -37,4 +37,12 @@ describe('CDK tests', () => {
       }));
     });
   });
+
+  describe('API Resources', () => {
+    test('should create API', () => {
+      expect(stack).to(haveResource('AWS::ApiGateway::RestApi', {
+        Name: 'StadiumsApi'
+      }));
+    });
+  });
 });
