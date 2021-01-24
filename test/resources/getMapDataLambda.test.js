@@ -29,6 +29,7 @@ describe('getMapDataLambda', () => {
     teamId: 'testTeam',
     league: 'testLeague',
     conference: 'testConference',
+    logoUrl: 'testLogoUrl',
     markerSize: {
       x: 1,
       y: 2,
@@ -43,6 +44,7 @@ describe('getMapDataLambda', () => {
     teamId: 'testTeam2',
     league: 'testLeague2',
     conference: 'testConference2',
+    logoUrl: 'testLogoUrl2',
     markerSize: {
       x: 5,
       y: 6,
@@ -58,6 +60,7 @@ describe('getMapDataLambda', () => {
     teamId: { S: team.teamId },
     league: { S: team.league },
     conference: { S: team.conference },
+    logoUrl: { S: team.logoUrl },
     markerSize: { M: {
       x: { N: team.markerSize.x },
       y: { N: team.markerSize.y }

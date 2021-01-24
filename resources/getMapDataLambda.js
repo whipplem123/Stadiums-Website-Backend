@@ -18,15 +18,16 @@ exports.handler = async () => {
                     teamId: item.teamId.S,
                     league: item.league.S,
                     conference: item.conference.S,
+                    logoUrl: item.logoUrl.S,
                     markerSize: {
-                        x: item.markerSize.M.x.N,
-                        y: item.markerSize.M.y.N,
+                        x: Number(item.markerSize.M.x.N),
+                        y: Number(item.markerSize.M.y.N),
                     },
                     position: {
-                        lat: item.position.M.lat.N,
-                        lng: item.position.M.lng.N,
+                        lat: Number(item.position.M.lat.N),
+                        lng: Number(item.position.M.lng.N),
                     },
-                    visited: item.visited.B
+                    visited: Boolean(item.visited.B)
                 })));
                 finishedScan = !data.LastEvaluatedKey;
             }).promise();
