@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 
 exports.handler = async () => {
-    const ddb = new AWS.DynamoDB.DocumentClient();
+    const ddb = new AWS.DynamoDB();
     let params = {
         TableName: process.env.TABLE_NAME
     };
@@ -14,20 +14,33 @@ exports.handler = async () => {
                 if (err) {
                     throw err;
                 }
-                mapData.push(...data.Items);
+                mapData.push(...data.Items.map((item) => ({
+                    teamId: item.teamId.S,
+                    league: item.league.S,
+                    conference: item.conference.S,
+                    markerSize: {
+                        x: item.markerSize.M.x.N,
+                        y: item.markerSize.M.y.N,
+                    },
+                    position: {
+                        lat: item.position.M.lat.N,
+                        lng: item.position.M.lng.N,
+                    },
+                    visited: item.visited.B
+                })));
                 finishedScan = !data.LastEvaluatedKey;
             }).promise();
         } catch (err) {
             return {
                 statusCode: 500,
-                headers: {},
+                headers: { 'Access-Control-Allow-Origin': '*' },
                 body: err.message
             };
         }
     }
     return {
         statusCode: 200,
-        headers: {},
+        headers: { 'Access-Control-Allow-Origin': '*' },
         body: JSON.stringify({mapData})
     };
 };

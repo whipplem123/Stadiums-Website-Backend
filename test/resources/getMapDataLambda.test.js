@@ -8,7 +8,7 @@ describe('getMapDataLambda', () => {
 
   beforeEach(() => {
     process.env.TABLE_NAME = tableName;
-    AWS.mock('DynamoDB.DocumentClient', 'scan', (params, callback) => {
+    AWS.mock('DynamoDB', 'scan', (params, callback) => {
       try {
         callback(null, scanStub(params));
       } catch (error) {
@@ -20,40 +20,81 @@ describe('getMapDataLambda', () => {
 
   afterEach(() => {
     delete process.env.TABLE_NAME;
-    AWS.restore('DynamoDB.DocumentClient', 'scan');
+    AWS.restore('DynamoDB', 'scan');
   });
 
   test.todo('should return 400 if HTTP method is not GET');
 
+  const team1 = {
+    teamId: 'testTeam',
+    league: 'testLeague',
+    conference: 'testConference',
+    markerSize: {
+      x: 1,
+      y: 2,
+    },
+    position: {
+      lat: 3,
+      lng: 4,
+    },
+    visited: true
+  };
+  const team2 = {
+    teamId: 'testTeam2',
+    league: 'testLeague2',
+    conference: 'testConference2',
+    markerSize: {
+      x: 5,
+      y: 6,
+    },
+    position: {
+      lat: 7,
+      lng: 8,
+    },
+    visited: false
+  };
+
+  const getDdbFromTeamData = (team) => ({
+    teamId: { S: team.teamId },
+    league: { S: team.league },
+    conference: { S: team.conference },
+    markerSize: { M: {
+      x: { N: team.markerSize.x },
+      y: { N: team.markerSize.y }
+    }},
+    position: { M: {
+      lat: { N: team.position.lat },
+      lng: { N: team.position.lng }
+    }},
+    visited: { B: team.visited }
+  });
+
   test('should scan DDB and return results if method is GET', async () => {
-    const data = ['item1', 'item2'];
-    scanStub.returns({ Items: data });
+    scanStub.returns({ Items: [ getDdbFromTeamData(team1) ] });
 
     const result = await lambdaHandler();
     expect(result).toEqual({
       statusCode: 200,
-      headers: {},
+      headers: { 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({
-        mapData: data
+        mapData: [ team1 ]
       })
     });
   });
 
   test('should scan multiple times if not all items are returned in first scan', async () => {
-    const firstScanData = ['item1', 'item2'];
-    const secondScanData = ['item3', 'item4'];
     scanStub.onFirstCall().returns({
-      Items: firstScanData,
-      LastEvaluatedKey: 'item2'
+      Items: [ getDdbFromTeamData(team1) ],
+      LastEvaluatedKey: 'exists'
     }).onSecondCall().returns({
-      Items: secondScanData
+      Items: [ getDdbFromTeamData(team2) ]
     });
 
     expect(await lambdaHandler()).toEqual({
       statusCode: 200,
-      headers: {},
+      headers: { 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({
-        mapData: firstScanData.concat(secondScanData)
+        mapData: [ team1, team2 ]
       })
     });
   });
@@ -65,7 +106,7 @@ describe('getMapDataLambda', () => {
     const result = await lambdaHandler();
     expect(result).toEqual({
       statusCode: 500,
-      headers: {},
+      headers: { 'Access-Control-Allow-Origin': '*' },
       body: errorMessage
     });
   });
