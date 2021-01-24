@@ -27,7 +27,7 @@ exports.handler = async () => {
                         lat: Number(item.position.M.lat.N),
                         lng: Number(item.position.M.lng.N),
                     },
-                    visited: Boolean(item.visited.B)
+                    visited: item.visited.BOOL
                 })));
                 finishedScan = !data.LastEvaluatedKey;
             }).promise();

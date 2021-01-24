@@ -69,7 +69,7 @@ describe('getMapDataLambda', () => {
       lat: { N: team.position.lat },
       lng: { N: team.position.lng }
     }},
-    visited: { B: team.visited }
+    visited: { BOOL: team.visited }
   });
 
   test('should scan DDB and return results if method is GET', async () => {
