@@ -19,6 +19,9 @@ exports.handler = async () => {
                     league: item.league.S,
                     conference: item.conference.S,
                     logoUrl: item.logoUrl.S,
+                    imageUrl: item.imageUrl.S,
+                    facadeImageUrl: item.facadeImageUrl.S,
+                    aerialImageUrl: item.aerialImageUrl.S,
                     markerSize: {
                         x: Number(item.markerSize.M.x.N),
                         y: Number(item.markerSize.M.y.N),

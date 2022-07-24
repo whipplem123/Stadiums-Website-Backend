@@ -30,6 +30,9 @@ describe('getMapDataLambda', () => {
     league: 'testLeague',
     conference: 'testConference',
     logoUrl: 'testLogoUrl',
+    imageUrl: 'testImageUrl',
+    facadeImageUrl: 'testFacadeImageUrl',
+    aerialImageUrl: 'testAerialImageUrl',
     markerSize: {
       x: 1,
       y: 2,
@@ -45,6 +48,9 @@ describe('getMapDataLambda', () => {
     league: 'testLeague2',
     conference: 'testConference2',
     logoUrl: 'testLogoUrl2',
+    imageUrl: 'testImageUrl2',
+    facadeImageUrl: 'testFacadeImageUrl2',
+    aerialImageUrl: 'testAerialImageUrl2',
     markerSize: {
       x: 5,
       y: 6,
@@ -61,6 +67,9 @@ describe('getMapDataLambda', () => {
     league: { S: team.league },
     conference: { S: team.conference },
     logoUrl: { S: team.logoUrl },
+    imageUrl: { S: team.imageUrl },
+    facadeImageUrl: { S: team.facadeImageUrl },
+    aerialImageUrl: { S: team.aerialImageUrl },
     markerSize: { M: {
       x: { N: team.markerSize.x },
       y: { N: team.markerSize.y }
