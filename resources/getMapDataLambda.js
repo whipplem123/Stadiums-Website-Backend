@@ -16,8 +16,15 @@ exports.handler = async () => {
                 }
                 mapData.push(...data.Items.map((item) => ({
                     teamId: item.teamId.S,
+                    teamName: item.teamName.S,
                     league: item.league.S,
                     conference: item.conference.S,
+                    stadiumName: item.stadiumName.S,
+                    openingDate: item.openingDate.S,
+                    capacity: item.capacity.N,
+                    city: item.city.S,
+                    state: item.state.S,
+                    country: item.country.S,
                     logoUrl: item.logoUrl.S,
                     imageUrl: item.imageUrl.S,
                     facadeImageUrl: item.facadeImageUrl.S,

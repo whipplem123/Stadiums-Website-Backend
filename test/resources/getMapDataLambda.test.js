@@ -27,8 +27,15 @@ describe('getMapDataLambda', () => {
 
   const team1 = {
     teamId: 'testTeam',
+    teamName: 'Test Team',
     league: 'testLeague',
     conference: 'testConference',
+    stadiumName: 'mackey',
+    openingDate: '1900',
+    capacity: 45000,
+    city: 'Cincinnati',
+    state: 'OH',
+    country: 'United States',
     logoUrl: 'testLogoUrl',
     imageUrl: 'testImageUrl',
     facadeImageUrl: 'testFacadeImageUrl',
@@ -45,8 +52,15 @@ describe('getMapDataLambda', () => {
   };
   const team2 = {
     teamId: 'testTeam2',
+    teamName: 'Test Team 2',
     league: 'testLeague2',
     conference: 'testConference2',
+    stadiumName: 'ross-ade',
+    openingDate: '1900',
+    capacity: 60000,
+    city: 'West Lafayette',
+    state: 'IN',
+    country: 'United States',
     logoUrl: 'testLogoUrl2',
     imageUrl: 'testImageUrl2',
     facadeImageUrl: 'testFacadeImageUrl2',
@@ -64,8 +78,15 @@ describe('getMapDataLambda', () => {
 
   const getDdbFromTeamData = (team) => ({
     teamId: { S: team.teamId },
+    teamName: { S: team.teamName },
     league: { S: team.league },
     conference: { S: team.conference },
+    stadiumName: { S: team.stadiumName },
+    openingDate: { S: team.openingDate },
+    capacity: { N: team.capacity },
+    city: { S: team.city },
+    state: { S: team.state },
+    country: { S: team.country },
     logoUrl: { S: team.logoUrl },
     imageUrl: { S: team.imageUrl },
     facadeImageUrl: { S: team.facadeImageUrl },
