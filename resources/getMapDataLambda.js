@@ -26,9 +26,7 @@ exports.handler = async () => {
                     state: item.state.S,
                     country: item.country.S,
                     logoUrl: item.logoUrl.S,
-                    imageUrl: item.imageUrl.S,
-                    facadeImageUrl: item.facadeImageUrl.S,
-                    aerialImageUrl: item.aerialImageUrl.S,
+                    stadiumImages: item.stadiumImages.L.map((image) => image.S),
                     markerSize: {
                         x: Number(item.markerSize.M.x.N),
                         y: Number(item.markerSize.M.y.N),

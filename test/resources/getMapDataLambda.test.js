@@ -37,9 +37,7 @@ describe('getMapDataLambda', () => {
     state: 'OH',
     country: 'United States',
     logoUrl: 'testLogoUrl',
-    imageUrl: 'testImageUrl',
-    facadeImageUrl: 'testFacadeImageUrl',
-    aerialImageUrl: 'testAerialImageUrl',
+    stadiumImages: ['image1', 'image2'],
     markerSize: {
       x: 1,
       y: 2,
@@ -62,9 +60,7 @@ describe('getMapDataLambda', () => {
     state: 'IN',
     country: 'United States',
     logoUrl: 'testLogoUrl2',
-    imageUrl: 'testImageUrl2',
-    facadeImageUrl: 'testFacadeImageUrl2',
-    aerialImageUrl: 'testAerialImageUrl2',
+    stadiumImages: ['image1', 'image2'],
     markerSize: {
       x: 5,
       y: 6,
@@ -88,9 +84,10 @@ describe('getMapDataLambda', () => {
     state: { S: team.state },
     country: { S: team.country },
     logoUrl: { S: team.logoUrl },
-    imageUrl: { S: team.imageUrl },
-    facadeImageUrl: { S: team.facadeImageUrl },
-    aerialImageUrl: { S: team.aerialImageUrl },
+    stadiumImages: { L: [
+      { S: team.stadiumImages[0] },
+      { S: team.stadiumImages[1] }
+    ]},
     markerSize: { M: {
       x: { N: team.markerSize.x },
       y: { N: team.markerSize.y }
