@@ -15,7 +15,8 @@ export class StadiumsWebsiteBackendStack extends Stack {
   private createResources() {
     this.stadiumsMapTable = new Table(this, 'StadiumsMapTable', {
       tableName: 'StadiumsMapTable',
-      partitionKey: { name: 'teamId', type: AttributeType.STRING }
+      partitionKey: { name: 'stadiumId', type: AttributeType.STRING },
+      sortKey: { name: 'tenantId', type: AttributeType.STRING }
     });
 
     const getMapDataLambda = new Function(this, 'GetMapDataLambda', {
