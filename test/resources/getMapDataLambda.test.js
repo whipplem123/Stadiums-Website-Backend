@@ -31,13 +31,13 @@ describe('getMapDataLambda', () => {
     league: 'testLeague',
     conference: 'testConference',
     stadiumName: 'mackey',
-    openingDate: '1900',
+    openingDate: 1900,
     capacity: 45000,
     city: 'Cincinnati',
     state: 'OH',
     country: 'United States',
     logoUrl: 'testLogoUrl',
-    stadiumImages: ['image1', 'image2'],
+    stadiumImages: ['image1', 'image2', 'image3', 'image4'],
     markerSize: {
       x: 1,
       y: 2,
@@ -54,13 +54,13 @@ describe('getMapDataLambda', () => {
     league: 'testLeague2',
     conference: 'testConference2',
     stadiumName: 'ross-ade',
-    openingDate: '1900',
+    openingDate: 1900,
     capacity: 60000,
     city: 'West Lafayette',
     state: 'IN',
     country: 'United States',
     logoUrl: 'testLogoUrl2',
-    stadiumImages: ['image1', 'image2'],
+    stadiumImages: ['image1', 'image2', 'image3', 'image4'],
     markerSize: {
       x: 5,
       y: 6,
@@ -73,21 +73,21 @@ describe('getMapDataLambda', () => {
   };
 
   const getDdbFromTeamData = (team) => ({
-    teamId: { S: team.teamId },
+    tenantId: { S: team.teamId },
     teamName: { S: team.teamName },
     league: { S: team.league },
     conference: { S: team.conference },
     stadiumName: { S: team.stadiumName },
-    openingDate: { S: team.openingDate },
+    openingDate: { N: team.openingDate },
     capacity: { N: team.capacity },
     city: { S: team.city },
     state: { S: team.state },
     country: { S: team.country },
     logoUrl: { S: team.logoUrl },
-    stadiumImages: { L: [
-      { S: team.stadiumImages[0] },
-      { S: team.stadiumImages[1] }
-    ]},
+    imageWithFans: { S: team.stadiumImages[0] },
+    imageEmpty: { S: team.stadiumImages[1] },
+    imageAerial: { S: team.stadiumImages[2] },
+    imageFacade: { S: team.stadiumImages[3] },
     markerSize: { M: {
       x: { N: team.markerSize.x },
       y: { N: team.markerSize.y }
@@ -96,7 +96,7 @@ describe('getMapDataLambda', () => {
       lat: { N: team.position.lat },
       lng: { N: team.position.lng }
     }},
-    visited: { BOOL: team.visited }
+    visits: { N: Number(team.visited) }
   });
 
   test('should scan DDB and return results if method is GET', async () => {

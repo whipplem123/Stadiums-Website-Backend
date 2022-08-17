@@ -44,7 +44,15 @@ with table.batch_writer() as batch:
                     years = { 'start': int(split_years[0]), 'end': int(split_years[1]) if len(split_years) > 1 else int(split_years[0]) }
                     renovations.append({ 'cost': int(cost), 'years': years })
                 ddb_item['renovations'] = renovations
-            
+
+            ddb_item['markerSize'] = { 'x': int(ddb_item['markerSizeX']), 'y': int(ddb_item['markerSizeY']) }
+            del ddb_item['markerSizeX']
+            del ddb_item['markerSizeY']
+
+            ddb_item['position'] = { 'lat': Decimal(ddb_item['positionLat']), 'lng': Decimal(ddb_item['positionLng']) }
+            del ddb_item['positionLat']
+            del ddb_item['positionLng']
+
             for k,v in ddb_item.items():
                 if not isinstance(v, str):
                     continue
