@@ -25,106 +25,144 @@ describe('getMapDataLambda', () => {
 
   test.todo('should return 400 if HTTP method is not GET');
 
-  const team1 = {
-    teamId: 'testTeam',
-    teamName: 'Test Team',
-    league: 'testLeague',
-    conference: 'testConference',
-    stadiumName: 'mackey',
-    openingDate: 1900,
-    capacity: 45000,
-    city: 'Cincinnati',
-    state: 'OH',
-    country: 'United States',
-    logoUrl: 'testLogoUrl',
-    stadiumImages: ['image1', 'image2', 'image3', 'image4'],
-    markerSize: {
-      x: 1,
-      y: 2,
-    },
-    position: {
-      lat: 3,
-      lng: 4,
-    },
-    visited: true
-  };
-  const team2 = {
-    teamId: 'testTeam2',
-    teamName: 'Test Team 2',
-    league: 'testLeague2',
-    conference: 'testConference2',
-    stadiumName: 'ross-ade',
-    openingDate: 1900,
-    capacity: 60000,
-    city: 'West Lafayette',
-    state: 'IN',
-    country: 'United States',
-    logoUrl: 'testLogoUrl2',
-    stadiumImages: ['image1', 'image2', 'image3', 'image4'],
-    markerSize: {
-      x: 5,
-      y: 6,
-    },
-    position: {
-      lat: 7,
-      lng: 8,
-    },
-    visited: false
-  };
-
-  const getDdbFromTeamData = (team) => ({
-    tenantId: { S: team.teamId },
-    teamName: { S: team.teamName },
-    league: { S: team.league },
-    conference: { S: team.conference },
-    stadiumName: { S: team.stadiumName },
-    openingDate: { N: team.openingDate },
-    capacity: { N: team.capacity },
-    city: { S: team.city },
-    state: { S: team.state },
-    country: { S: team.country },
-    logoUrl: { S: team.logoUrl },
-    imageWithFans: { S: team.stadiumImages[0] },
-    imageEmpty: { S: team.stadiumImages[1] },
-    imageAerial: { S: team.stadiumImages[2] },
-    imageFacade: { S: team.stadiumImages[3] },
+  const team1Ddb = {
+    stadiumId: { S: 'Mackey' },
+    tenantId: { S: 'Purdue' },
+    teamName: { S: 'Purdue' },
+    league: { S: 'NCAAM' },
+    conference: { S: 'B1G' },
+    division: { S: 'West' },
+    city: { S: 'West Lafayette' },
+    state: { S: 'IN' },
+    country: { S: 'USA' },
+    stadiumName: { S: 'Mackey Arena' },
+    nonCorporateName: { S: 'Mackey Arena' },
+    shortName: { S: 'Mackey' },
+    formerNames: { L: [{
+      M: {
+        name: { S: 'Former Name' },
+        years: { L: [{ M: {
+          start: { N: 1900 },
+          end: { N: 1901 }
+        }}]}
+      }
+    }]},
+    surface: { S: 'Hardwood' },
+    roof: { S: 'Arena' },
+    constructionCost: { N: 1000000 },
+    renovations: { L: [{ M: {
+      cost: { N: 1000000 },
+      years: { M: {
+        start: { N: 1950 },
+        end: { N: 1951 }
+      }}
+    }}]},
+    capacity: { N: 14846 },
+    artificialCapacity: { N: 15000 },
+    openingDate: { N: 1968 },
+    firstUsedDate: { N: 1968 },
+    active: { BOOL: true },
+    activeForTeam: { BOOL: true },
+    visited: { BOOL: true },
+    visits: { N: 48 },
+    logoUrl: { S: 'logoUrl' },
     markerSize: { M: {
-      x: { N: team.markerSize.x },
-      y: { N: team.markerSize.y }
+      x: { N: 30 },
+      y: { N: 30 }
     }},
     position: { M: {
-      lat: { N: team.position.lat },
-      lng: { N: team.position.lng }
+      lat: { N: 100.100 },
+      lng: { N: 100.100 }
     }},
-    visits: { N: Number(team.visited) }
-  });
+    imageWithFans: { S: 'imageWithFans' },
+    imageEmpty: { S: 'imageEmpty' },
+    imageAerial: { S: 'imageAerial' },
+    imageFacade: { S: 'imageFacade' },
+    primaryFieldImage: { S: 'imageWithFans' },
+    primaryPerspectiveImage: { S: 'imageAerial' }
+  };
+
+  const team1Translated = {
+    stadiumId: 'Mackey',
+    tenantId: 'Purdue',
+    teamName: 'Purdue',
+    league: 'NCAAM',
+    conference: 'B1G',
+    division: 'West',
+    city: 'West Lafayette',
+    state: 'IN',
+    country: 'USA',
+    stadiumName: 'Mackey Arena',
+    nonCorporateName: 'Mackey Arena',
+    shortName: 'Mackey',
+    formerNames: [{
+      name: 'Former Name',
+      years: [{
+        start: 1900,
+        end: 1901
+      }]
+    }],
+    surface: 'Hardwood',
+    roof: 'Arena',
+    constructionCost: 1000000,
+    renovations: [{
+      cost: 1000000,
+      years: {
+        start: 1950,
+        end: 1951
+      }
+    }],
+    capacity: 14846,
+    artificialCapacity: 15000,
+    openingDate: 1968,
+    firstUsedDate: 1968,
+    active: true,
+    activeForTeam: true,
+    visited: true,
+    visits: 48,
+    logoUrl: 'logoUrl',
+    markerSize: {
+      x: 30,
+      y: 30
+    },
+    position: {
+      lat: 100.100,
+      lng: 100.100
+    },
+    imageWithFans: 'imageWithFans',
+    imageEmpty: 'imageEmpty',
+    imageAerial: 'imageAerial',
+    imageFacade: 'imageFacade',
+    primaryFieldImage: 'imageWithFans',
+    primaryPerspectiveImage: 'imageAerial'
+  };
 
   test('should scan DDB and return results if method is GET', async () => {
-    scanStub.returns({ Items: [ getDdbFromTeamData(team1) ] });
+    scanStub.returns({ Items: [ team1Ddb ] });
 
     const result = await lambdaHandler();
     expect(result).toEqual({
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({
-        mapData: [ team1 ]
+        mapData: [ team1Translated ]
       })
     });
   });
 
   test('should scan multiple times if not all items are returned in first scan', async () => {
     scanStub.onFirstCall().returns({
-      Items: [ getDdbFromTeamData(team1) ],
+      Items: [ team1Ddb ],
       LastEvaluatedKey: 'exists'
     }).onSecondCall().returns({
-      Items: [ getDdbFromTeamData(team2) ]
+      Items: [ team1Ddb ]
     });
 
     expect(await lambdaHandler()).toEqual({
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({
-        mapData: [ team1, team2 ]
+        mapData: [ team1Translated, team1Translated ]
       })
     });
   });
