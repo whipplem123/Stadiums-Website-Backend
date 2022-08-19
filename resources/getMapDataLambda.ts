@@ -150,9 +150,9 @@ const convertDdbItemToStadiumData = (item: DdbItem): StadiumData => ({
     })),
     surface: item.surface?.S,
     roof: item.roof.S,
-    constructionCost: item.constructionCost.N,
+    constructionCost: item.constructionCost && Number(item.constructionCost.N),
     renovations: item.renovations?.L.map((ddbRenovation: DdbObject<DdbRenovation>) => ({
-        cost: ddbRenovation.M.cost.N,
+        cost: Number(ddbRenovation.M.cost.N),
         years: {
             start: Number(ddbRenovation.M.years.M.start.N),
             end: Number(ddbRenovation.M.years.M.end.N)
