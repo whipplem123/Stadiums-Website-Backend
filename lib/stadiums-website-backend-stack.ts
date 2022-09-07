@@ -1,7 +1,8 @@
-import { Stack, Construct, StackProps } from '@aws-cdk/core';
-import { Table, AttributeType } from '@aws-cdk/aws-dynamodb';
-import { Function, Runtime, Code } from '@aws-cdk/aws-lambda';
-import { PolicyStatement, Effect } from '@aws-cdk/aws-iam';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { Table, AttributeType } from 'aws-cdk-lib/aws-dynamodb';
+import { Function, Runtime, Code } from 'aws-cdk-lib/aws-lambda';
+import { PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import { ApiResources } from './api-resources';
 
 export class StadiumsWebsiteBackendStack extends Stack {
@@ -20,8 +21,8 @@ export class StadiumsWebsiteBackendStack extends Stack {
     });
 
     const getMapDataLambda = new Function(this, 'GetMapDataLambda', {
-      runtime: Runtime.NODEJS_12_X,
-      code: Code.asset('resources'),
+      runtime: Runtime.NODEJS_16_X,
+      code: Code.fromAsset('resources'),
       handler: 'getMapDataLambda.handler',
       environment: {
         TABLE_NAME: this.stadiumsMapTable.tableName

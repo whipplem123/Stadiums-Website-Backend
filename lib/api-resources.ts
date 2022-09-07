@@ -1,6 +1,6 @@
-import { Construct } from '@aws-cdk/core';
-import { Function } from '@aws-cdk/aws-lambda';
-import { RestApi, LambdaIntegration } from '@aws-cdk/aws-apigateway';
+import { Construct } from 'constructs';
+import { Function } from 'aws-cdk-lib/aws-lambda';
+import { RestApi, LambdaIntegration } from 'aws-cdk-lib/aws-apigateway';
 
 export interface ApiResourcesProps {
     getMapDataLambda: Function;
