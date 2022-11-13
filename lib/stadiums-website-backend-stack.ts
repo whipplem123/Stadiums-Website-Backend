@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Table, AttributeType } from 'aws-cdk-lib/aws-dynamodb';
 import { Function, Runtime, Code } from 'aws-cdk-lib/aws-lambda';
@@ -22,6 +22,7 @@ export class StadiumsWebsiteBackendStack extends Stack {
 
     const getMapDataLambda = new Function(this, 'GetMapDataLambda', {
       runtime: Runtime.NODEJS_16_X,
+      timeout: Duration.seconds(10),
       code: Code.fromAsset('resources'),
       handler: 'getMapDataLambda.handler',
       environment: {
